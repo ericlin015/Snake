@@ -5,8 +5,14 @@ public class Snake {
 	private int[] mySnakeX_;
 	private int[] mySnakeY_;
 	private int playerNum_;
+	private Direction dir_;
+	private boolean isHuman_;
 	
-	public void Snake(int player){
+	public enum Direction{
+		UP,DOWN,LEFT,RIGHT
+	}
+	
+	public Snake(int player){
 		mySnakeX_ = new int[650];
 		mySnakeY_ = new int[330];
 		playerNum_ = player;
@@ -16,12 +22,18 @@ public class Snake {
 	            mySnakeX_[i] = 100 - i * 5;
 	            mySnakeY_[i] = 100;
 	        }
+			dir_ = Direction.RIGHT;
 		}else{
 			for (int i = 0; i<7; i++) {
 	            mySnakeX_[i] = 550 + i * 5;
 	            mySnakeY_[i] = 100;
 	        }
+			dir_ = Direction.LEFT;
 		}
+	}
+	
+	public void changeDir(Direction dir){
+		dir_ = dir;
 	}
 	
 	public void snakeGrow(Food food){
@@ -31,6 +43,14 @@ public class Snake {
 	}
 	
 	//bunch of accessors
+	public boolean isThisHuman(){
+		return isHuman_;
+	}
+	
+	public Direction getDir(){
+		return dir_;
+	}
+	
 	public int getLength(){
 		return length_;
 	}

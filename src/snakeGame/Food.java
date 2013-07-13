@@ -4,7 +4,7 @@ public class Food {
 	private int foodX_;
 	private int foodY_;
 	
-	public void Food(Snake snake1, Snake snake2){
+	public Food(Snake snake1, Snake snake2){
 		makeNewFood(snake1, snake2);
 	}
 	

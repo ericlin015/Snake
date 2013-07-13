@@ -3,12 +3,12 @@ package snakeGame;
 import java.awt.Graphics;
 
 public interface game {
-	public void generateFood();
-	public boolean isEatingFood();
-	public boolean isHittingWall();
-	public boolean isHittingOther(Snake snake);
-	public void paint(Graphics g);
-	public boolean isGameOver(Snake snake1, Snake snake2);
+	public boolean isEatingFood(Snake snake);
+	public boolean isHittingWall(Snake snake);
+	public boolean isHittingOther(Snake snake1, Snake snake2);
+	public boolean isGameOver();
+	final static int rightEdge = 645;
+	final static int bottomEdge = 325;
 }
 
 
