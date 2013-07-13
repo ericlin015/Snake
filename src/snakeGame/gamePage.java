@@ -11,7 +11,6 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 
 import snakeGame.Snake.Direction;
-import snakeGame.humanClass.myListener;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
@@ -22,12 +21,11 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class gamePage extends JFrame {
+public class GamePage extends JFrame {
 
 	private JPanel contentPane;
-	public gameClass gameOn;
+	public Game gameOn;
 	public Timer timer;
-	public boolean haha;
 	private boolean isInitialPainted = false;
 	
 	/**
@@ -37,7 +35,8 @@ public class gamePage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					gamePage frame = new gamePage();
+					GamePage frame = new GamePage();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,16 +46,17 @@ public class gamePage extends JFrame {
 
 	public void paint(Graphics g){
 		if(!isInitialPainted){
-			gameOn.paint(g);
+			gameOn.init(g);
+			isInitialPainted = true;
 		}else{
-			gameOn.finalPaint(g);
+			gameOn.paint(g);
 		}
 	}
 	
 	/**
 	 * Create the frame.
 	 */
-	public gamePage() {
+	public GamePage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650,330);
 		contentPane = new JPanel();
@@ -65,11 +65,20 @@ public class gamePage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.setUndecorated(true);
-		gameOn = new gameClass(this);
+		
+		gameOn = new Game();
 		timer = new Timer(80, new myListener2());
-        //timer.start();
+        timer.start();
+        addKeyListener(new myListener());
+        //repaint();
 	}
 
+	class myListener extends KeyAdapter {
+		public void keyPressed(KeyEvent e) {
+			gameOn.keyPressed(e);
+		}
+	}
+	
 	 class myListener2 implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
 	        	repaint();
