@@ -27,6 +27,27 @@ public class Game implements GameInterface{
 		isGameOver_ = false;
 	}
 	
+	public void fillSnake(Graphics g){
+		g.setColor(Color.BLACK);
+		int[] mysnakeX1 = player1_.getSnake().getSnakeX();
+        int[] mysnakeY1 = player1_.getSnake().getSnakeY();
+        int[] mysnakeX2 = player2_.getSnake().getSnakeX();
+        int[] mysnakeY2 = player2_.getSnake().getSnakeY();
+        for(int i =0;i<player1_.getSnake().getLength();i++){
+        	g.fillRect(mysnakeX1[i], mysnakeY1[i],5, 5);          	
+        }
+        g.setColor(Color.RED);
+        for(int i = 0;i<player2_.getSnake().getLength();i++){
+        	g.fillRect(mysnakeX2[i], mysnakeY2[i],5, 5);
+        }
+	}
+	
+	public void fillFood(Graphics g){
+		g.setColor(Color.BLACK);
+		g.fillRect(food_.getFoodX(),food_.getFoodY(),5,5);
+		System.out.println("new food created " + food_.getFoodX() + " " + food_.getFoodY());
+	}
+	
 	public void init(Graphics g){
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 650, 330);
@@ -38,17 +59,7 @@ public class Game implements GameInterface{
         g.fillRect(food_.getFoodX(), food_.getFoodY(), 5, 5);//food initialition
         System.out.println(food_.getFoodX() + " " + food_.getFoodY() + "created");
         foodEaten_ = false;
-        int[] mysnakeX1 = player1_.getSnake().getSnakeX();
-        int[] mysnakeY1 = player1_.getSnake().getSnakeY();
-        int[] mysnakeX2 = player2_.getSnake().getSnakeX();
-        int[] mysnakeY2 = player2_.getSnake().getSnakeY();
-        for(int i =0;i<player1_.getSnake().getLength();i++){
-        	g.fillRect(mysnakeX1[i], mysnakeY1[i],5, 5);          	
-        }
-        g.setColor(Color.RED);
-        for(int i = 0;i<player2_.getSnake().getLength();i++){
-        	g.fillRect(mysnakeX2[i], mysnakeY2[i],5, 5);
-        }
+        fillSnake(g);
         //moveOn();
 	}
 	
@@ -89,23 +100,15 @@ public class Game implements GameInterface{
 	
 	public void paint(Graphics g) {
 		if (!isGameOver()) {
-			int[] hnt1 = player1_.getSnake().getHeadAndTail();
-			int[] hnt2 = player2_.getSnake().getHeadAndTail();
-			g.setColor(Color.BLACK);
-			g.fillRect(hnt1[0], hnt1[1], 5, 5);
-			g.setColor(Color.RED);
-			g.fillRect(hnt2[0], hnt2[1], 5, 5);
 			g.setColor(Color.WHITE);
-			g.fillRect(hnt1[2], hnt1[3], 5, 5);
-			g.fillRect(hnt2[2], hnt2[3], 5, 5);
+			g.fillRect(5, 5, 640, 320);
+			fillSnake(g);
+			fillFood(g);
 			update();			
 		}		
 		if(foodEaten_){
 			food_.makeNewFood(player1_.getSnake(), player2_.getSnake());
 			foodEaten_ = false;
-			g.setColor(Color.BLACK);
-			g.fillRect(food_.getFoodX(),food_.getFoodY(),5,5);
-			System.out.println("new food created " + food_.getFoodX() + " " + food_.getFoodY());
 		}
 	}
 	public boolean isEatingFood(Snake snake){
@@ -177,16 +180,16 @@ public class Game implements GameInterface{
 			}
 		}
 		if (player1_.isHuman()) {
-			if (e.getKeyCode() == KeyEvent.VK_A) {
+			if (e.getKeyCode() == KeyEvent.VK_A && player1_.getSnake().getDir() != Direction.RIGHT) {
 				player1_.changeDir(Direction.LEFT);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_S) {
+			if (e.getKeyCode() == KeyEvent.VK_S && player1_.getSnake().getDir() != Direction.UP) {
 				player1_.changeDir(Direction.DOWN);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_D) {
+			if (e.getKeyCode() == KeyEvent.VK_D && player1_.getSnake().getDir() != Direction.LEFT) {
 				player1_.changeDir(Direction.RIGHT);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_W) {
+			if (e.getKeyCode() == KeyEvent.VK_W && player1_.getSnake().getDir() != Direction.DOWN) {
 				player1_.changeDir(Direction.UP);
 			}
 		}

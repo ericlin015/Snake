@@ -1,6 +1,7 @@
 package snakeGame;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,6 +25,8 @@ import java.awt.event.ActionListener;
 public class GamePage extends JFrame {
 
 	private JPanel contentPane;
+	Graphics bufferGraphics;
+	Image bufferImage;
 	public Game gameOn;
 	public Timer timer;
 	private boolean isInitialPainted = false;
@@ -43,14 +46,18 @@ public class GamePage extends JFrame {
 			}
 		});
 	}
-
+	
 	public void paint(Graphics g){
+		bufferImage = createImage(this.getWidth(),this.getHeight());
+		bufferGraphics = bufferImage.getGraphics();
+		gameOn.init(bufferGraphics);
 		if(!isInitialPainted){
-			gameOn.init(g);
+			gameOn.init(bufferGraphics);
 			isInitialPainted = true;
 		}else{
-			gameOn.paint(g);
-		}
+			gameOn.paint(bufferGraphics);
+		}	
+		g.drawImage(bufferImage,0,0,this);
 	}
 	
 	/**
@@ -67,7 +74,7 @@ public class GamePage extends JFrame {
 		this.setUndecorated(true);
 		
 		gameOn = new Game();
-		timer = new Timer(80, new myListener2());
+		timer = new Timer(30, new myListener2());
         timer.start();
         addKeyListener(new myListener());
         //repaint();
